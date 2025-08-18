@@ -1,0 +1,46 @@
+# Basic stuff
+alias cls='clear'
+alias vim='nvim'   # Absolute madness
+alias emacs='nvim' # Unhinged (but approved)
+
+alias tls='tmux ls'
+alias fetch='fastfetch'
+
+# Git
+alias gs='git status'
+alias gb='git branch'
+alias gc='git checkout'
+alias ga='git add -A'
+
+################################################################################
+
+# Tmux helpers
+tn () {
+  local session_name="$1"
+  [[ -z "$session_name" ]] && { echo "Usage: tn <name>"; return 1; }
+  echo "Creating new session: '$session_name'"
+  tmux new-session -s "$session_name"
+}
+
+ta () {
+  local session_name="$1"
+  [[ -z "$session_name" ]] && { echo "Usage: ta <name>"; return 1; }
+  echo "Attaching to session: '$session_name'"
+  tmux attach-session -t "$session_name"
+}
+
+tk () {
+  local session_name="$1"
+  [[ -z "$session_name" ]] && { echo "Usage: tk <name>"; return 1; }
+  echo "Killing session: '$session_name'"
+  tmux kill-session -t "$session_name"
+}
+
+################################################################################
+
+# Fuzzy finders
+# Open a file chosen via fzf (in a centered tmux popup when applicable). Quotes keep spaces safe.
+alias ff='nvim "$(fd --type f --hidden --exclude .git | fzf-tmux -p)"'
+
+# Fuzzy cd into a directory. Quotes keep spaces safe.
+alias dff='cd "$(fd --type directory --hidden --exclude .git | fzf-tmux -p)"'
