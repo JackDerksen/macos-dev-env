@@ -1,0 +1,19 @@
+# Window
+window-width = 110
+window-height = 30
+theme = sonokai
+title = " "
+macos-titlebar-proxy-icon = hidden
+window-padding-x = 6
+window-padding-y = 6
+shell-integration-features = no-cursor,no-title
+
+# Font
+font-family = "GeistMono Nerd Font Mono"
+font-size = 20
+font-style = Medium
+font-feature = -calt, -liga, -dlig
+
+# Cursor
+cursor-style = block
+cursor-style-blink = false
