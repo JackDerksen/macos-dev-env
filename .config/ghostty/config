@@ -1,7 +1,7 @@
 # Window
 window-width = 110
 window-height = 30
-theme = sonokai
+theme = 0x96f
 title = " "
 macos-titlebar-proxy-icon = hidden
 window-padding-x = 6
