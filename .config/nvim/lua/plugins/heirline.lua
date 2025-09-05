@@ -10,37 +10,76 @@ return {
     local utils = require("heirline.utils")
 
     local function setup_colors()
-      return {
-        bright_bg = "#2c2e34",
-        bright_fg = "#e2e2e3",
-        red = "#fc5d7c",
-        green = "#9ed072",
-        blue = "#76cce0",
-        light_gray = "#8d95b1",
-        dark_gray = "#33353f",
-        orange = "#f39660",
-        purple = "#b39df3",
-        cyan = "#76cce0",
+      -- Try to get colors from the 0x96f theme, fallback to defaults
+      local has_theme, theme_colors = pcall(require, "colorschemes.0x96f")
 
-        diag_warn = "#f39660",
-        diag_error = "#fc5d7c",
-        diag_hint = "#76cce0",
-        diag_info = "#9ed072",
-        git_del = "#fc5d7c",
-        git_add = "#9ed072",
-        git_change = "#76cce0",
-        branch_bg = "#8d95b1",
-        diff_bg = "#6f758b",
-        diag_bg = "#515565",
-        middle_bg = "#33353f",
+      if has_theme and theme_colors.colors then
+        local c = theme_colors.colors
+        return {
+          bright_bg = c.bg_alt,
+          bright_fg = c.fg,
+          red = c.red,
+          green = c.green,
+          blue = c.blue,
+          light_gray = c.fg_alt,
+          dark_gray = c.bg_dark,
+          orange = c.yellow, -- Using yellow as orange
+          purple = c.magenta,
+          cyan = c.cyan,
 
-        normal = "#b39df3",  -- purple
-        insert = "#76cce0",  -- blue
-        visual = "#f39660",  -- orange
-        replace = "#fc5d7c", -- red
-        command = "#9ed072", -- green
-        inactive = "#33353f",
-      }
+          diag_warn = c.warning,
+          diag_error = c.error,
+          diag_hint = c.hint,
+          diag_info = c.info,
+          git_del = c.red,
+          git_add = c.green,
+          git_change = c.blue,
+          branch_bg = c.comment,
+          diff_bg = c.bg_alt,
+          diag_bg = c.bg_alt,
+          middle_bg = c.bg_alt,
+
+          normal = c.magenta,
+          insert = c.blue,
+          visual = c.yellow,
+          replace = c.red,
+          command = c.green,
+          inactive = c.bg_dark,
+        }
+      else
+        -- Fallback colors if theme is not available
+        return {
+          bright_bg = "#2a2730",
+          bright_fg = "#fcfcfa",
+          red = "#ff7272",
+          green = "#bcdf59",
+          blue = "#49cae4",
+          light_gray = "#e8e8e6",
+          dark_gray = "#1e1e21",
+          orange = "#ffca58",
+          purple = "#a093e2",
+          cyan = "#aee8f4",
+
+          diag_warn = "#ffca58",
+          diag_error = "#ff7272",
+          diag_hint = "#a093e2",
+          diag_info = "#49cae4",
+          git_del = "#ff7272",
+          git_add = "#bcdf59",
+          git_change = "#49cae4",
+          branch_bg = "#8a8a88",
+          diff_bg = "#2a2730",
+          diag_bg = "#2a2730",
+          middle_bg = "#2a2730",
+
+          normal = "#a093e2",
+          insert = "#49cae4",
+          visual = "#ffca58",
+          replace = "#ff7272",
+          command = "#bcdf59",
+          inactive = "#1e1e21",
+        }
+      end
     end
 
     -- Initialize colors right away and then again on colorscheme change
@@ -118,7 +157,7 @@ return {
       },
       {
         provider = function(self)
-          return "  " .. self.mode_names[self.mode] .. " "
+          return "  " .. self.mode_names[self.mode] .. " "
         end,
         hl = function(self)
           return {
@@ -159,7 +198,7 @@ return {
       end,
       {
         provider = function(self)
-          return "  " .. self.status_dict.head .. " "
+          return "  " .. self.status_dict.head .. " "
         end,
         hl = {
           fg = colors.dark_gray,
@@ -262,19 +301,19 @@ return {
       },
       {
         provider = function(self)
-          return self.errors > 0 and ("  " .. self.errors)
+          return self.errors > 0 and ("  " .. self.errors)
         end,
         hl = { fg = colors.light_gray, bg = colors.diag_bg },
       },
       {
         provider = function(self)
-          return self.warnings > 0 and ("  " .. self.warnings)
+          return self.warnings > 0 and ("  " .. self.warnings)
         end,
         hl = { fg = colors.light_gray, bg = colors.diag_bg },
       },
       {
         provider = function(self)
-          return self.info > 0 and ("  " .. self.info)
+          return self.info > 0 and ("  " .. self.info)
         end,
         hl = { fg = colors.light_gray, bg = colors.diag_bg },
       },
@@ -368,7 +407,7 @@ return {
           -- Assuming max 9999 lines and 999 columns
           local line = string.format("%4d", vim.fn.line("."))
           local col = string.format("%3d", vim.fn.col("."))
-          return "  " .. line .. ":" .. col .. " "
+          return "  " .. line .. ":" .. col .. " "
         end,
         hl = {
           fg = colors.bright_bg,
