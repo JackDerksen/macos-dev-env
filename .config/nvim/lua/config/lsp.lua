@@ -1,8 +1,31 @@
 -- LSP configuration module
 local M = {}
 
+-- Add debouncing for better performance
+vim.diagnostic.config({
+  update_in_insert = false,
+  virtual_text = {
+    spacing = 4,
+    source = "if_many",
+    prefix = "●",
+  },
+  float = {
+    focusable = false,
+    style = "minimal",
+    border = "rounded",
+    source = "always",
+    header = "",
+    prefix = "",
+  },
+})
+
 -- Setup LSP keymaps for a buffer
 function M.on_attach(client, bufnr)
+  -- Disable semantic tokens for better performance
+  if client.server_capabilities.semanticTokensProvider then
+    client.server_capabilities.semanticTokensProvider = nil
+  end
+
   local map = function(mode, lhs, rhs, desc)
     if desc then
       desc = "LSP: " .. desc
@@ -114,7 +137,14 @@ function M.setup()
     settings = {
       Lua = {
         diagnostics = {
-          globals = { "vim" },
+          globals = {
+            "vim",
+            "require",
+            "describe",
+            "it",
+            "before_each",
+            "after_each",
+          },
         },
         workspace = {
           library = {
@@ -124,6 +154,19 @@ function M.setup()
           checkThirdParty = false,
         },
         telemetry = { enable = false },
+        -- Enable completion for require paths
+        completion = {
+          callSnippet = "Replace",
+        },
+        -- Better type checking
+        hint = {
+          enable = true,
+          setType = false,
+          paramType = true,
+          paramName = "Disable",
+          semicolon = "Disable",
+          arrayIndex = "Disable",
+        },
       },
     },
   })

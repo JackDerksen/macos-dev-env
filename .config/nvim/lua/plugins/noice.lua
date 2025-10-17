@@ -1,6 +1,6 @@
 return {
   "folke/noice.nvim",
-  event = { "BufReadPost", "BufNewFile" },
+  event = "UIEnter",
   opts = {
     lsp = {
       override = {

@@ -1,12 +1,25 @@
--- Load lazy.nvim plugin manager
-require("config.lazy")
+-- Disable some default providers for faster startup
+vim.g.loaded_gzip = 1
+vim.g.loaded_zip = 1
+vim.g.loaded_zipPlugin = 1
+vim.g.loaded_tar = 1
+vim.g.loaded_tarPlugin = 1
+vim.g.loaded_getscript = 1
+vim.g.loaded_getscriptPlugin = 1
+vim.g.loaded_vimball = 1
+vim.g.loaded_vimballPlugin = 1
+vim.g.loaded_2html_plugin = 1
+vim.g.loaded_matchit = 1
+vim.g.loaded_matchparen = 1
+vim.g.loaded_logiPat = 1
+vim.g.loaded_rrhelper = 1
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+vim.g.loaded_netrwSettings = 1
 
--- Load configuration
+-- Load configurations
+require("config.lazy")
 require("config.options")
 require("config.keymaps")
 require("config.autocmds")
-
--- Set nicer line number highlighting
-vim.api.nvim_set_hl(0, "LineNrAbove", { fg = "#4C4f5A", bold = false })
-vim.api.nvim_set_hl(0, "LineNr", { fg = "#E2E2E3", bold = true })
-vim.api.nvim_set_hl(0, "LineNrBelow", { fg = "#4C4f5A", bold = false })
+require("config.highlights").setup()

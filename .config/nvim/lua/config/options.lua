@@ -1,3 +1,9 @@
+-- Caching options for better performance
+vim.opt.shadafile = vim.fn.stdpath("state") .. "/shada/main.shada"
+vim.opt.updatetime = 250 -- Faster CursorHold events
+vim.opt.timeout = true
+vim.opt.timeoutlen = 300
+
 vim.opt.guicursor = ""
 vim.opt.cursorline = false
 
@@ -33,8 +39,3 @@ vim.opt.pumblend = 0
 vim.o.termguicolors = true
 
 vim.opt.fillchars = { eob = " " }
-
---vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none", fg = "#b39df3", bold = true })
-vim.api.nvim_set_hl(0, "FloatBorder", { link = "Normal" })
-vim.api.nvim_set_hl(0, "FloatTitle", { bg = "none", fg = "#76cce0", bold = true })
---vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
