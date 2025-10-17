@@ -1,6 +1,6 @@
 add_newline = true
 
-format = "$directory$line_break(magenta)$character"
+format = "$directory$fill$git_branch$line_break$character"
 
 [directory]
 style = "bold bright-black"
@@ -8,8 +8,14 @@ truncate_to_repo = false
 truncation_length = 0
 home_symbol = "~"
 
+[fill]
+symbol = " " # spaces between left and right
+
 [character]
 format = "[$symbol](white) "
 success_symbol = "❯"
 error_symbol   = "❯"
 vicmd_symbol   = "❯"
+
+[git_branch]
+style = "bright-black"
