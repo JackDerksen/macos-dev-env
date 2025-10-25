@@ -7,6 +7,8 @@ This repository contains my updated development environment configuration for ma
 
 ## 🛠️ Tools & Technologies
 
+<img width="5120" height="2880" alt="CleanShot 2025-10-24 at 21 33 11@2x" src="https://github.com/user-attachments/assets/d45bbf6d-ccd0-496e-ba9e-1e8d8e48e0e4" />
+
 ### Terminal & Shell
 - **[Ghostty](https://ghostty.org/)** - Modern, fast GPU-accelerated terminal emulator. Probably the best one out there right now
 - **[Starship](https://starship.rs/)** - Just a nice cross-shell prompt that's easy to customize
@@ -19,6 +21,8 @@ This repository contains my updated development environment configuration for ma
 - **[FZF](https://github.com/junegunn/fzf)** - Command-line file fuzzy finder
 - **[FD](https://github.com/sharkdp/fd)** - Command-line directory fuzzy finder. Fast alternative to `find`
 - **[Ripgrep](https://github.com/BurntSushi/ripgrep)** - Fast text search tool
+
+<img width="5120" height="2880" alt="CleanShot 2025-10-24 at 21 35 20@2x" src="https://github.com/user-attachments/assets/249099fa-3199-4dcc-9c3b-e4e5c4bd1a15" />
 
 ## 📁 Config Structure
 
@@ -57,6 +61,9 @@ My Neovim setup is built around productivity and speed, featuring:
 - **Beautiful UI** - Custom Heirline statusline with mode indicators
 - **Code Formatting** - Conform.nvim with automatic formatting on save
 
+<img width="5120" height="2880" alt="CleanShot 2025-10-24 at 21 37 47@2x" src="https://github.com/user-attachments/assets/ee23695f-4303-4ce7-b652-84142410526c" />
+<img width="5120" height="2880" alt="CleanShot 2025-10-24 at 21 39 37@2x" src="https://github.com/user-attachments/assets/a395f29b-a5f6-4f7e-8b1e-b0bcfd391e40" />
+
 ### Terminal Experience
 - **Ghostty Terminal** - Hardware-accelerated terminal emulator with custom Sonokai theme
 - **Starship Prompt** - Clean, fast, informative prompt
@@ -73,6 +80,9 @@ ff
 # Fuzzy navigate to a directory
 dff
 ```
+
+
+
 
 #### Tmux Session Management
 ```bash
@@ -104,6 +114,7 @@ My entire environment uses the lovely Sonokai theme for consistency:
 - **Neovim** - Sonokai colorscheme with custom highlights
 - **Tmux** - Matching status bar colors. Muted so they aren't overwhelming!
 - **FZF** - Themed fuzzy finder interface
+
 
 ## 📦 Plugin Highlights
 
@@ -242,15 +253,6 @@ To change from Sonokai to another theme:
 1. Update the Ghostty theme in `.config/ghostty/themes/`
 2. Change the Neovim colorscheme in `lua/plugins/colors.lua`
 3. Adjust Tmux colors in `tmux/tmux.conf`
-
-## 📸 Screenshots
-
-*TODO: I'll add screenshots of my setup here when I have time, showing:*
-- Ghostty terminal with Starship prompt
-- Neovim with Oil file explorer
-- Harpoon quick menu
-- Tmux session with multiple panes
-- FZF fuzzy finding
 
 ## 🤝 Contributing
 
