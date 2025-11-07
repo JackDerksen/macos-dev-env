@@ -1,7 +1,7 @@
 # Basic stuff
 alias cls='clear'
 alias vim='nvim'   # Absolute madness
-alias emacs='nvim' # Unhinged (but approved)
+alias emacs='nvim' # Unhinged
 
 alias tls='tmux ls'
 alias fetch='fastfetch'
@@ -11,10 +11,13 @@ alias gs='git status'
 alias gb='git branch'
 alias gc='git checkout'
 alias ga='git add -A'
+alias gi='git commit -m "init"'
+alias gp='git push'
 
 ################################################################################
 
 # Tmux helpers
+# Create new tmux session
 tn () {
   local session_name="$1"
   [[ -z "$session_name" ]] && { echo "Usage: tn <name>"; return 1; }
@@ -22,6 +25,7 @@ tn () {
   tmux new-session -s "$session_name"
 }
 
+# Attach to specified tmux session
 ta () {
   local session_name="$1"
   [[ -z "$session_name" ]] && { echo "Usage: ta <name>"; return 1; }
@@ -29,11 +33,41 @@ ta () {
   tmux attach-session -t "$session_name"
 }
 
+# Kill specified tmux session
 tk () {
   local session_name="$1"
   [[ -z "$session_name" ]] && { echo "Usage: tk <name>"; return 1; }
   echo "Killing session: '$session_name'"
   tmux kill-session -t "$session_name"
+}
+
+################################################################################
+
+# Git helpers
+# Add and commit with a message, all in one command. Won't push changes!
+gac() {
+  if [ -z "$1" ]; then
+    echo "Usage: gac <commit message>"
+    return 1
+  fi
+
+  git add .
+  git commit -m "$*"
+}
+
+# Change 'master' branch to 'main' (Cargo is annoying about this)
+git-good() {
+  echo "Converting 'master' to 'main'"
+
+  # Change local branch to main
+  git branch -m master main
+
+  # Change tracked branch
+  git fetch -p origin
+  git branch -u origin/master main
+
+  # Change main local branch
+  git remote set-head origin -a
 }
 
 ################################################################################
