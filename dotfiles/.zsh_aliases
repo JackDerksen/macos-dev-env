@@ -1,8 +1,15 @@
-# Basic stuff
+# Standard command aliases
+alias cl='clear'
 alias cls='clear'
-alias vim='nvim'   # Absolute madness
-alias emacs='nvim' # Unhinged
+alias ls='ls2'
+alias l='ls2'
+alias copy='cp'
+alias move='mv'
+alias rename='mv'
 
+# Tools
+alias vim='nvim'
+alias vi='nvim'
 alias tls='tmux ls'
 alias fetch='fastfetch'
 
@@ -10,14 +17,12 @@ alias fetch='fastfetch'
 alias gs='git status'
 alias gb='git branch'
 alias gc='git checkout'
-alias ga='git add -A'
-alias gi='git commit -m "init"'
+alias ga='git add'
 alias gp='git push'
 
 ################################################################################
 
 # Tmux helpers
-# Create new tmux session
 tn () {
   local session_name="$1"
   [[ -z "$session_name" ]] && { echo "Usage: tn <name>"; return 1; }
@@ -25,7 +30,6 @@ tn () {
   tmux new-session -s "$session_name"
 }
 
-# Attach to specified tmux session
 ta () {
   local session_name="$1"
   [[ -z "$session_name" ]] && { echo "Usage: ta <name>"; return 1; }
@@ -33,7 +37,6 @@ ta () {
   tmux attach-session -t "$session_name"
 }
 
-# Kill specified tmux session
 tk () {
   local session_name="$1"
   [[ -z "$session_name" ]] && { echo "Usage: tk <name>"; return 1; }
@@ -43,38 +46,9 @@ tk () {
 
 ################################################################################
 
-# Git helpers
-# Add and commit with a message, all in one command. Won't push changes!
-gac() {
-  if [ -z "$1" ]; then
-    echo "Usage: gac <commit message>"
-    return 1
-  fi
-
-  git add .
-  git commit -m "$*"
-}
-
-# Change 'master' branch to 'main' (Cargo is annoying about this)
-git-good() {
-  echo "Converting 'master' to 'main'"
-
-  # Change local branch to main
-  git branch -m master main
-
-  # Change tracked branch
-  git fetch -p origin
-  git branch -u origin/master main
-
-  # Change main local branch
-  git remote set-head origin -a
-}
-
-################################################################################
-
 # Fuzzy finders
-# Open a file chosen via fzf (in a centered tmux popup when applicable). Quotes keep spaces safe.
+# Open a file chosen via fzf in a tmux popup. Quotes keep spaces safe.
 alias ff='nvim "$(fd --type f --hidden --exclude .git | fzf-tmux -p)"'
 
-# Fuzzy cd into a directory. Quotes keep spaces safe.
+# Fuzzy cd into a directory (quotes for safety)
 alias dff='cd "$(fd --type directory --hidden --exclude .git | fzf-tmux -p)"'
