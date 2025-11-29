@@ -162,7 +162,7 @@ brew install --cask font-geist-mono-nerd-font
 
 1. **Clone this repository:**
    ```bash
-   git clone https://github.com/yourusername/macos-dev-env.git
+   git clone https://github.com/JackDerksen/macos-dev-env.git
    cd macos-dev-env
    ```
 
