@@ -1,3 +1,9 @@
+---
+
+# NOTE: I'm currently in the process of editing this readme file to reflect my recent updates to the tools I use
+
+---
+
 # My macOS Dev Environment
 ## My complete development setup for macOS - tools, configs, and workflow
 
