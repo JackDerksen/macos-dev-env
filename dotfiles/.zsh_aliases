@@ -1,8 +1,8 @@
 # Standard command aliases
 alias cl='clear'
-alias cls='clear'
-alias ls='ls2'
-alias l='ls2'
+alias cls=''
+alias l='lx'
+alias ls='lx'
 alias copy='cp'
 alias move='mv'
 alias rename='mv'
@@ -18,7 +18,7 @@ alias gs='git status'
 alias gb='git branch'
 alias gc='git checkout'
 alias ga='git add'
-alias gp='git push'
+alias gitgood='git branch -m master main && git fetch --all --prune'
 
 ################################################################################
 
