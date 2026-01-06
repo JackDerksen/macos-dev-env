@@ -1,0 +1,64 @@
+auto-update-channel = tip
+
+# Window
+# This position makes it centered with my "almost fullscreen" command
+#window-width = 103
+#window-height = 29
+window-width = 80
+window-height = 23
+theme = viis
+title = " "
+macos-titlebar-proxy-icon = hidden
+window-padding-x = 6
+window-padding-y = 6
+shell-integration-features = no-cursor,no-title
+split-divider-color = "#3d404b"
+
+# Font
+font-family = "Geist Mono"
+font-size = 21
+font-style = Medium
+font-feature = -calt, -liga, -dlig
+
+# Cursor
+cursor-style = block
+cursor-style-blink = false
+
+macos-icon = custom-style
+macos-icon-ghost-color = "B4BEFE"
+macos-icon-screen-color = "1A191C"
+macos-icon-frame = plastic
+
+# Keybinds
+keybind = ctrl+cmd+-=new_split:down
+keybind = ctrl+cmd+\=new_split:right
+
+keybind = ctrl+h=goto_split:left
+keybind = ctrl+j=goto_split:down
+keybind = ctrl+k=goto_split:up
+keybind = ctrl+l=goto_split:right
+
+keybind = ctrl+cmd+z=toggle_split_zoom
+keybind = ctrl+cmd+x=close_surface
+
+# Vim Mode Key Table
+keybind = alt+v=activate_key_table:vim
+keybind = vim/
+
+keybind = vim/j=scroll_page_lines:1
+keybind = vim/k=scroll_page_lines:-1
+keybind = vim/ctrl+d=scroll_page_down
+keybind = vim/ctrl+u=scroll_page_up
+keybind = vim/g>g=scroll_to_top
+keybind = vim/shift+g=scroll_to_bottom
+keybind = vim/slash=start_search
+keybind = vim/n=navigate_search:next
+keybind = vim/y=copy_to_clipboard
+keybind = vim/shift+semicolon=toggle_command_palette
+
+keybind = vim/escape=deactivate_key_table
+keybind = vim/q=deactivate_key_table
+keybind = vim/i=deactivate_key_table
+
+keybind = vim/catch_all=ignore
+

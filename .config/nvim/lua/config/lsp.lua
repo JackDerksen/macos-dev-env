@@ -1,0 +1,351 @@
+-- LSP configuration module
+local M = {}
+
+-- Add debouncing for better performance
+vim.diagnostic.config({
+    update_in_insert = false,
+    virtual_text = {
+        spacing = 4,
+        source = "if_many",
+        prefix = "●",
+    },
+    float = {
+        focusable = false,
+        style = "minimal",
+        border = "rounded",
+        source = "always",
+        header = "",
+        prefix = "",
+    },
+})
+
+-- Setup LSP keymaps for a buffer
+function M.on_attach(client, bufnr)
+    -- Disable semantic tokens for better performance
+    if client.server_capabilities.semanticTokensProvider then
+        client.server_capabilities.semanticTokensProvider = nil
+    end
+
+    local map = function(mode, lhs, rhs, desc)
+        if desc then
+            desc = "LSP: " .. desc
+        end
+        vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc, noremap = true, silent = true })
+    end
+
+    -- Keymaps
+    map("n", "K", vim.lsp.buf.hover, "Hover Documentation")
+    map("n", "gd", vim.lsp.buf.definition, "Goto Definition")
+    map("n", "gD", vim.lsp.buf.declaration, "Goto Declaration")
+    map("n", "gi", vim.lsp.buf.implementation, "Goto Implementation")
+    map("n", "gr", vim.lsp.buf.references, "Goto References")
+    map("n", "gt", vim.lsp.buf.type_definition, "Type Definition")
+    map("n", "<leader>ca", vim.lsp.buf.code_action, "Code Action")
+    map("n", "<leader>rn", vim.lsp.buf.rename, "Rename")
+    map("n", "<leader>ds", vim.lsp.buf.document_symbol, "Document Symbols")
+    map("n", "<leader>ws", vim.lsp.buf.workspace_symbol, "Workspace Symbols")
+    map("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, "Add Workspace Folder")
+    map("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, "Remove Workspace Folder")
+    map("n", "<leader>wl", function()
+        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    end, "List Workspace Folders")
+    map("n", "<leader>f", function()
+        -- Try to use conform.nvim for formatting if available
+        local has_conform, conform = pcall(require, "conform")
+        if has_conform then
+            conform.format({ async = true, lsp_fallback = true })
+        else
+            vim.lsp.buf.format({ async = true })
+        end
+    end, "Format")
+
+    -- LSP document highlighting disabled - can be re-enabled if desired
+    -- if client.server_capabilities.documentHighlightProvider then
+    --   local highlight_group = vim.api.nvim_create_augroup("LSPDocumentHighlight", { clear = true })
+    --   vim.api.nvim_create_autocmd("CursorHold", {
+    --     callback = vim.lsp.buf.document_highlight,
+    --     buffer = bufnr,
+    --     group = highlight_group,
+    --   })
+    --   vim.api.nvim_create_autocmd("CursorMoved", {
+    --     callback = vim.lsp.buf.clear_references,
+    --     buffer = bufnr,
+    --     group = highlight_group,
+    --   })
+    -- end
+
+    -- Disable formatting for ts_ls if we're using Prettier with conform.nvim
+    if client.name == "ts_ls" then
+        client.server_capabilities.documentFormattingProvider = false
+        client.server_capabilities.documentRangeFormattingProvider = false
+    end
+end
+
+-- Setup LSP servers
+function M.setup()
+    -- Configure diagnostics
+    vim.diagnostic.config({
+        underline = true,
+        update_in_insert = false,
+        virtual_text = {
+            spacing = 4,
+            source = "if_many",
+            prefix = "●",
+        },
+        severity_sort = true,
+    })
+
+    -- Set diagnostic signs
+    local signs = {
+        Error = " ",
+        Warn = " ",
+        Hint = "󰍉 ",
+        Info = " ",
+    }
+
+    for type, icon in pairs(signs) do
+        local hl = "DiagnosticSign" .. type
+        vim.fn.sign_define(hl, { text = icon, texthl = hl })
+    end
+
+    -- Setup LSP handlers
+    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
+
+    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
+
+    -- Get cmp capabilities if available
+    local capabilities = vim.lsp.protocol.make_client_capabilities()
+    local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+    if has_cmp then
+        capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+    end
+
+    -- Enable HTML tag auto-completion
+    capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+    -- Create a special capabilities object for clangd
+    local clangd_capabilities = vim.deepcopy(capabilities)
+    clangd_capabilities.offsetEncoding = { "utf-16" }
+
+    -- Lua LSP configuration
+    vim.lsp.config('lua_ls', {
+        capabilities = capabilities,
+        on_attach = M.on_attach,
+        settings = {
+            Lua = {
+                diagnostics = {
+                    globals = {
+                        "vim",
+                        "require",
+                        "describe",
+                        "it",
+                        "before_each",
+                        "after_each",
+                    },
+                },
+                workspace = {
+                    library = {
+                        [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+                        [vim.fn.stdpath("config") .. "/lua"] = true,
+                    },
+                    checkThirdParty = false,
+                },
+                telemetry = { enable = false },
+                completion = {
+                    callSnippet = "Replace",
+                },
+                hint = {
+                    enable = true,
+                    setType = false,
+                    paramType = true,
+                    paramName = "Disable",
+                    semicolon = "Disable",
+                    arrayIndex = "Disable",
+                },
+            },
+        },
+    })
+    vim.lsp.enable('lua_ls')
+
+    -- C/C++ LSP configuration
+    vim.lsp.config('clangd', {
+        capabilities = clangd_capabilities,
+        on_attach = M.on_attach,
+        cmd = {
+            "clangd",
+            "--header-insertion=never",
+            "--clang-tidy",
+        },
+    })
+    vim.lsp.enable('clangd')
+
+    -- Rust LSP configuration
+    vim.lsp.config('rust_analyzer', {
+        capabilities = capabilities,
+        on_attach = M.on_attach,
+        settings = {
+            ["rust-analyzer"] = {
+                checkOnSave = {
+                    command = "clippy",
+                },
+            },
+        },
+    })
+    vim.lsp.enable('rust_analyzer')
+
+    -- Python LSP configuration
+    vim.lsp.config('pylsp', {
+        capabilities = capabilities,
+        on_attach = M.on_attach,
+        settings = {
+            pylsp = {
+                plugins = {
+                    pycodestyle = {
+                        maxLineLength = 100,
+                    },
+                },
+            },
+        },
+    })
+    vim.lsp.enable('pylsp')
+
+    -- TypeScript/JavaScript LSP configuration (ts_ls)
+    vim.lsp.config('ts_ls', {
+        capabilities = capabilities,
+        on_attach = M.on_attach,
+        settings = {
+            typescript = {
+                inlayHints = {
+                    includeInlayParameterNameHints = "all",
+                    includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                    includeInlayFunctionParameterTypeHints = true,
+                    includeInlayVariableTypeHints = true,
+                    includeInlayPropertyDeclarationTypeHints = true,
+                    includeInlayFunctionLikeReturnTypeHints = true,
+                },
+            },
+            javascript = {
+                inlayHints = {
+                    includeInlayParameterNameHints = "all",
+                    includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                    includeInlayFunctionParameterTypeHints = true,
+                    includeInlayVariableTypeHints = true,
+                    includeInlayPropertyDeclarationTypeHints = true,
+                    includeInlayFunctionLikeReturnTypeHints = true,
+                },
+            },
+        },
+        root_dir = function(fname)
+            local util = require("lspconfig.util")
+            return util.root_pattern(
+                "tsconfig.json",
+                "jsconfig.json",
+                "package.json"
+            )(fname)
+        end,
+    })
+    vim.lsp.enable('ts_ls')
+
+    -- HTML LSP configuration
+    vim.lsp.config('html', {
+        capabilities = capabilities,
+        on_attach = M.on_attach,
+        filetypes = { "html", "javascriptreact", "typescriptreact" },
+        init_options = {
+            configurationSection = { "html", "css", "javascript" },
+            embeddedLanguages = {
+                css = true,
+                javascript = true
+            },
+            provideFormatter = true,
+        },
+    })
+    vim.lsp.enable('html')
+
+    -- CSS LSP configuration
+    vim.lsp.config('cssls', {
+        capabilities = capabilities,
+        on_attach = M.on_attach,
+    })
+    vim.lsp.enable('cssls')
+
+    -- JSON LSP configuration
+    vim.lsp.config('jsonls', {
+        capabilities = capabilities,
+        on_attach = M.on_attach,
+        settings = {
+            json = {
+                schemas = function()
+                    local has_schemastore, schemastore = pcall(require, 'schemastore')
+                    if has_schemastore then
+                        return schemastore.json.schemas()
+                    else
+                        return {
+                            {
+                                fileMatch = { "package.json" },
+                                url = "https://json.schemastore.org/package.json"
+                            },
+                            {
+                                fileMatch = { "tsconfig.json", "tsconfig.*.json" },
+                                url = "https://json.schemastore.org/tsconfig.json"
+                            },
+                            {
+                                fileMatch = { ".eslintrc.json", ".eslintrc" },
+                                url = "https://json.schemastore.org/eslintrc.json"
+                            }
+                        }
+                    end
+                end,
+                validate = { enable = true }
+            }
+        }
+    })
+    vim.lsp.enable('jsonls')
+
+    -- TailwindCSS LSP configuration
+    vim.lsp.config('tailwindcss', {
+        capabilities = capabilities,
+        on_attach = M.on_attach,
+        filetypes = {
+            "html", "css", "scss", "javascript", "javascriptreact",
+            "typescript", "typescriptreact"
+        },
+    })
+    pcall(function()
+        vim.lsp.enable('tailwindcss')
+    end)
+
+    -- ESLint LSP configuration
+    vim.lsp.config('eslint', {
+        capabilities = capabilities,
+        on_attach = function(client, bufnr)
+            M.on_attach(client, bufnr)
+
+            vim.api.nvim_create_autocmd("BufWritePre", {
+                buffer = bufnr,
+                callback = function()
+                    vim.cmd("EslintFixAll")
+                end,
+            })
+        end,
+        settings = {
+            packageManager = "npm",
+            workingDirectories = { { mode = "auto" } },
+        },
+        root_dir = function(fname)
+            local util = require("lspconfig.util")
+            return util.root_pattern(
+                ".eslintrc",
+                ".eslintrc.js",
+                ".eslintrc.cjs",
+                ".eslintrc.yaml",
+                ".eslintrc.yml",
+                ".eslintrc.json",
+                "package.json"
+            )(fname)
+        end,
+    })
+    vim.lsp.enable('eslint')
+end
+
+return M

@@ -1,0 +1,30 @@
+[colors]
+directory = "blue"
+executable = "red"
+regular = "white"
+
+[icons]
+directory = ""
+executable = ""
+regular = ""
+
+[icons.colors]
+directory = "blue"
+executable = "red"
+regular = "white"
+
+[display]
+column_spacing = 2
+max_rows = 0
+long_format_fields = [
+    "filename",
+    "size",
+    "modified",
+    "owner",
+    "group",
+    "permissions",
+]
+
+[display.tree]
+style = "ascii"
+recursive_long_format = "nested"
