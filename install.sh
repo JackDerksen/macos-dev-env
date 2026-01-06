@@ -87,14 +87,16 @@ install_dependencies() {
         "fd"
         "ripgrep"
         "starship"
-        "luarocks"
+        "lx"
+        "zoxide"
+        "fastfetch"
         "node"  # For some LSP servers
         "python3"  # For Python development
-        "rust"  # For Rust development
     )
     
     local cask_deps=(
         "ghostty"
+        "zed"
         "font-geist-mono-nerd-font"
     )
     
@@ -179,6 +181,26 @@ install_configs() {
         print_message "$GREEN" "✅" "Starship configuration installed"
     else
         print_message "$YELLOW" "⚠️" "Starship configuration not found"
+    fi
+    
+    # Install lx configuration
+    if [ -d ".config/lx" ]; then
+        print_message "$BLUE" "📝" "Installing lx configuration..."
+        backup_file "$HOME/.config/lx"
+        cp -r .config/lx "$HOME/.config/"
+        print_message "$GREEN" "✅" "lx configuration installed"
+    else
+        print_message "$YELLOW" "⚠️" "lx configuration not found"
+    fi
+    
+    # Install Zed configuration
+    if [ -d ".config/zed" ]; then
+        print_message "$BLUE" "📝" "Installing Zed configuration..."
+        backup_file "$HOME/.config/zed"
+        cp -r .config/zed "$HOME/.config/"
+        print_message "$GREEN" "✅" "Zed configuration installed"
+    else
+        print_message "$YELLOW" "⚠️" "Zed configuration not found"
     fi
 }
 
@@ -275,6 +297,8 @@ main() {
     echo "   3. Start tmux and install plugins with: Ctrl+Space + I"
     echo "   4. Open Neovim and let it download plugins automatically"
     echo "   5. Try the aliases: 'ff' for file finding, 'dff' for directory navigation"
+    echo "   6. Use 'l' or 'ls' for the modern lx file lister"
+    echo "   7. Use 'cd' normally - zoxide will learn your habits and enable 'z' shortcuts"
     echo
     print_message "$PURPLE" "🚀" "Happy coding!"
 }
