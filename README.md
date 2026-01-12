@@ -1,53 +1,56 @@
----
-
-# NOTE: I'm currently in the process of editing this readme file to reflect my recent updates to the tools I use
-
----
-
 # My macOS Dev Environment
 ## My complete development setup for macOS - tools, configs, and workflow
 
 So, I recently bought a MacBook...
 
-This repository contains my updated development environment configuration for macOS, featuring a modern terminal setup with Ghostty, a fully customized Neovim configuration, and a streamlined workflow using Tmux and various CLI tools. Everything is themed with the beautiful Sonokai colorscheme.
+This repository contains my updated development environment configuration for macOS, featuring a modern and powerful terminal setup with Ghostty, a fully customized Neovim configuration, and various CLI tools like my custom 'ls' command alternative. Everything is themed with my own custom 'viis' colorscheme. Looks pretty nice, I've gotta say 😉
 
 ## 🛠️ Tools & Technologies
 
-<img width="5120" height="2880" alt="CleanShot 2025-10-24 at 21 33 11@2x" src="https://github.com/user-attachments/assets/d45bbf6d-ccd0-496e-ba9e-1e8d8e48e0e4" />
+<img width="5120" height="2820" alt="CleanShot 2026-01-11 at 20 06 49@2x" src="https://github.com/user-attachments/assets/3602331f-851e-43ed-9afa-a649fdbc123e" />
 
 ### Terminal & Shell
-- **[Ghostty](https://ghostty.org/)** - Modern, fast GPU-accelerated terminal emulator. Probably the best one out there right now
-- **[Starship](https://starship.rs/)** - Just a nice cross-shell prompt that's easy to customize
-- **[Tmux](https://github.com/tmux/tmux)** - Terminal multiplexer for session management. Customized with sane keybinds and a nice status bar
+- **[Ghostty](https://ghostty.org/)** - Modern, fast GPU-accelerated terminal emulator. Probably the best one out there right now. Currently have it defined with a vim keymap that I'm testing out.
+- **[Starship](https://starship.rs/)** - Just a nice, lightweight cross-shell prompt that's easy to customize.
+- **[Tmux](https://github.com/tmux/tmux)** - I'm honestly not using Tmux much anymore, as I'm trying to give Ghostty's native session/window management systems a shot. Liking them A LOT so far!
+- ...all on top of good ol' zsh.
 
 ### Editor & Development
 - **[Neovim](https://neovim.io/)** - Fully customized with Lazy.nvim plugin manager and a carefully-curated set of plugins. No off-the-shelf Neovim configuration here!
+- **[Zed](https://zed.dev/)** - For when I need a bit more power than Neovim can provide. Ported over my custom theme because I like it so much.
 
 ### Productivity Tools
-- **[FZF](https://github.com/junegunn/fzf)** - Command-line file fuzzy finder
-- **[FD](https://github.com/sharkdp/fd)** - Command-line directory fuzzy finder. Fast alternative to `find`
-- **[Ripgrep](https://github.com/BurntSushi/ripgrep)** - Fast text search tool
+- **[lx-cli](https://github.com/JackDerksen/lx-cli)** - lx is my custom alternative to the traditional `ls` command, with nicer formatting and lots of customization options.
+- **[FZF](https://github.com/junegunn/fzf)** - Command-line file fuzzy finder.
+- **[FD](https://github.com/sharkdp/fd)** - Command-line directory fuzzy finder. Fast alternative to `find`.
 
-<img width="5120" height="2880" alt="CleanShot 2025-10-24 at 21 35 20@2x" src="https://github.com/user-attachments/assets/249099fa-3199-4dcc-9c3b-e4e5c4bd1a15" />
+<img width="5120" height="2824" alt="CleanShot 2026-01-11 at 20 08 20@2x" src="https://github.com/user-attachments/assets/9ee3cc75-a238-4a20-a7ab-3da4a28c9125" />
 
 ## 📁 Config Structure
 
 ```
 .config/
-├── ghostty/          # Ghostty config
-│   ├── config        # Main Ghostty settings configuration
-│   └── themes/       # Custom color schemes
-│       └── sonokai   # Sonokai theme configuration file
-├── nvim/             # Neovim config
-│   ├── init.lua      # Entry point
+├── ghostty/               # Ghostty config
+│   ├── config             # Main Ghostty settings configuration
+│   └── themes/            # Custom color schemes
+│       └── viis           # Bespoke 'viis' theme config file
+├── nvim/                  # Neovim config
+│   ├── init.lua           # Entry point
 │   ├── lua/
-│   │   ├── config/   # Core configurations
-│   │   ├── plugins/  # Plugin specifications
-│   │   └── utils/    # Utility functions
+│   │   ├── colorschemes/  # Custom colorscheme config because I'm too lazy to make an actual plugin
+│   │   ├── config/        # Core configurations
+│   │   ├── plugins/       # Plugin specifications
+│   │   └── utils/         # Utility functions
 │   └── lazy-lock.json
-├── tmux/             # Tmux configuration
-│   └── tmux.conf     # Main tmux config
-└── starship.toml     # Starship prompt config
+├── lx/                    # lx-cli configuration
+│   └── config             # lx-cli config file
+├── tmux/                  # Tmux configuration
+│   └── tmux.conf          # Main tmux config
+├── zed/                   # Neovim config
+│   ├── settings.json      # Zed settings file
+│   └── themes/            # Zed theme directory for local themes (once again, too lazy to make an actual extension)
+│       └── viis.json      # Zed port of my bespoke nvim theme
+└── starship.toml          # Starship prompt config
 
 dotfiles/
 ├── .zshrc           # Zsh configuration
@@ -64,11 +67,12 @@ My Neovim setup is built around productivity and speed, featuring:
 - **Git Integration** - Gitsigns for change tracking and Git operations
 - **File Management** - Oil.nvim for intuitive file system editing
 - **Quick Navigation** - Harpoon for instant file switching
-- **Beautiful UI** - Custom Heirline statusline with mode indicators
+- **Beautiful UI** - Custom lualine statusline with mode indicators
 - **Code Formatting** - Conform.nvim with automatic formatting on save
 
-<img width="5120" height="2880" alt="CleanShot 2025-10-24 at 21 37 47@2x" src="https://github.com/user-attachments/assets/ee23695f-4303-4ce7-b652-84142410526c" />
-<img width="5120" height="2880" alt="CleanShot 2025-10-24 at 21 39 37@2x" src="https://github.com/user-attachments/assets/a395f29b-a5f6-4f7e-8b1e-b0bcfd391e40" />
+<img width="5120" height="2820" alt="CleanShot 2026-01-11 at 20 09 52@2x" src="https://github.com/user-attachments/assets/3bbae743-98c1-4985-8f76-001c00b547b3" />
+<img width="5120" height="2820" alt="CleanShot 2026-01-11 at 20 10 32@2x" src="https://github.com/user-attachments/assets/6aeedd1a-daa4-4043-b32b-a60d1db8847a" />
+
 
 ### Terminal Experience
 - **Ghostty Terminal** - Hardware-accelerated terminal emulator with custom Sonokai theme
@@ -87,9 +91,6 @@ ff
 dff
 ```
 
-
-
-
 #### Tmux Session Management
 ```bash
 # Create new session
@@ -107,37 +108,36 @@ tk project-name
 
 #### Development Workflow Example
 1. `dff` to navigate to project directory
-2. `tn project` to start a new tmux session
-3. Create focused windows for different tasks (coding, testing, etc.)
-4. Use `<leader>e` in Neovim to open Oil file explorer
-5. `<leader><leader>` for fuzzy file finding
-6. `<leader>h` to access Harpoon quick menu
+2. `tn project` to start a new tmux session (if I decided to use Tmux that day)
+3. Create focused windows for different tasks (coding, testing, etc.), either with Tmux or Ghostty tabs/panes
+4. Get to work!
+## 🎨 Theme: Viis Dark
 
-## 🎨 Theme: Sonokai
+My entire environment uses my own custom theme for consistency:
+- **Ghostty** - Custom viis terminal colors
+- **Neovim** - Viis colorscheme defined locally, with custom highlights
+- **Tmux** - Matching status bar colors
+- **FZF** - Matching themed fuzzy finder interface
 
-My entire environment uses the lovely Sonokai theme for consistency:
-- **Ghostty** - Custom Sonokai terminal colors
-- **Neovim** - Sonokai colorscheme with custom highlights
-- **Tmux** - Matching status bar colors. Muted so they aren't overwhelming!
-- **FZF** - Themed fuzzy finder interface
+<img width="5120" height="2818" alt="CleanShot 2026-01-11 at 20 12 29@2x" src="https://github.com/user-attachments/assets/ecb890e0-7eed-4722-a190-f5292bfe9ff0" />
 
 
 ## 📦 Plugin Highlights
 
 ### Neovim Plugins
-| Plugin | Purpose |
-|--------|---------|
-| **lazy.nvim** | Modern plugin manager |
-| **mason.nvim + lspconfig** | LSP management and configuration |
-| **nvim-cmp + sources** | Intelligent code completion |
-| **conform.nvim** | Code formatting with multiple formatters |
-| **gitsigns.nvim** | Git integration and change indicators |
-| **harpoon** | Quick file navigation and bookmarking |
-| **oil.nvim** | File system editing as text |
-| **telescope.nvim** | Fuzzy finder for everything |
-| **treesitter** | Syntax highlighting and code understanding |
-| **trouble.nvim** | Better diagnostics and error management |
-| **heirline.nvim** | Highly customizable statusline |
+| Plugin                     | Purpose                                    |
+| -------------------------- | ------------------------------------------ |
+| **lazy.nvim**              | Modern plugin manager                      |
+| **mason.nvim + lspconfig** | LSP management and configuration           |
+| **nvim-cmp + sources**     | Intelligent code completion                |
+| **conform.nvim**           | Code formatting with multiple formatters   |
+| **gitsigns.nvim**          | Git integration and change indicators      |
+| **harpoon**                | Quick file navigation and bookmarking      |
+| **oil.nvim**               | File system editing as text                |
+| **telescope.nvim**         | Fuzzy finder for everything                |
+| **treesitter**             | Syntax highlighting and code understanding |
+| **trouble.nvim**           | Better diagnostics and error management    |
+| **lualine.nvim**           | Fast and highly customizable statusline    |
 
 ### Tmux Plugins
 - **TPM** - Tmux plugin manager
@@ -228,24 +228,31 @@ If you prefer manual installation:
 - `Alt+H/L` - Switch between windows
 - `Ctrl+h/j/k/l` - Navigate between vim/tmux panes
 
+### Ghostty
+- `Ctrl + Cmd + -` - Split window horizontally
+- `Ctrl + Cmd + |` - Split window vertically
+- `Ctrl + h/j/k/l` - Switch between panes
+- `Ctrl + Cmd + z` - Zoom on focused pane
+- `Ctrl + Cmd + x` - Close focused pane
+- `Cmd + t` - Open a new tab
+- `Cmd + w` - Close current tab
+- `Opt + v` - Enter vim mode
+
 ### Terminal Aliases
 - `ff` - Fuzzy find and open file in Neovim
 - `dff` - Fuzzy find and change to directory
 - `vim` → `nvim` - Muscle memory override
-- `cls` → `clear` - Windows did something right? I like 'cls' better
+- `cl` → `clear` - Just a bit faster to type
 - `gs` → `git status` - Quick git status
+- `gb` → `git branch` - Quick git branch
+- `gc` → `git checkout` - Quick git checkout
+- `ga` → `git add` - Quick git add
+- `gitgood` → `git branch -m master main && git fetch --all --prune` - Convert 'master' branch to 'main'
 
 ## 🔧 Customization
 
 ### Adding Your Own Aliases
-Edit `dotfiles/.zsh_aliases` and add your custom functions:
-
-```bash
-# Example: Quick project navigation
-proj() {
-  cd ~/Projects/"$1" && tn "$1"
-}
-```
+I mean... you should know how to do this already.
 
 ### Modifying Neovim Configuration
 The modular structure makes it easy to customize:
@@ -253,12 +260,7 @@ The modular structure makes it easy to customize:
 - **Options:** Modify `lua/config/options.lua`
 - **Plugins:** Add new plugins in `lua/plugins/`
 - **LSP:** Configure language servers in `lua/config/lsp.lua`
-
-### Theme Customization
-To change from Sonokai to another theme:
-1. Update the Ghostty theme in `.config/ghostty/themes/`
-2. Change the Neovim colorscheme in `lua/plugins/colors.lua`
-3. Adjust Tmux colors in `tmux/tmux.conf`
+-  **Colours:** Configure the colour scheme to your liking in `lua/colorschemes/viis/init.lua`
 
 ## 🤝 Contributing
 
