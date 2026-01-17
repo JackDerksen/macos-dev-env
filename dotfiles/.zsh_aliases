@@ -1,54 +1,64 @@
-# Standard command aliases
+#
+# ~/.zsh_aliases
+#
+
+########################################
+# Core QoL
+########################################
 alias cl='clear'
-alias cls=''
+
 alias l='lx'
-alias ls='lx'
+
 alias copy='cp'
 alias move='mv'
 alias rename='mv'
 
-# Tools
+########################################
+# Editors & Tools
+########################################
 alias vim='nvim'
 alias vi='nvim'
+
 alias tls='tmux ls'
 alias fetch='fastfetch'
 
+########################################
 # Git
+########################################
 alias gs='git status'
 alias gb='git branch'
 alias gc='git checkout'
 alias ga='git add'
+
+# Rename master → main (local-focused, no remote assumptions)
 alias gitgood='git branch -m master main && git fetch --all --prune'
 
-################################################################################
-
+########################################
 # Tmux helpers
-tn () {
-  local session_name="$1"
-  [[ -z "$session_name" ]] && { echo "Usage: tn <name>"; return 1; }
-  echo "Creating new session: '$session_name'"
-  tmux new-session -s "$session_name"
+########################################
+tn() {
+  local name="$1"
+  [[ -z "$name" ]] && { echo "Usage: tn <name>"; return 1; }
+  tmux new-session -s "$name"
 }
 
-ta () {
-  local session_name="$1"
-  [[ -z "$session_name" ]] && { echo "Usage: ta <name>"; return 1; }
-  echo "Attaching to session: '$session_name'"
-  tmux attach-session -t "$session_name"
+ta() {
+  local name="$1"
+  [[ -z "$name" ]] && { echo "Usage: ta <name>"; return 1; }
+  tmux attach-session -t "$name"
 }
 
-tk () {
-  local session_name="$1"
-  [[ -z "$session_name" ]] && { echo "Usage: tk <name>"; return 1; }
-  echo "Killing session: '$session_name'"
-  tmux kill-session -t "$session_name"
+tk() {
+  local name="$1"
+  [[ -z "$name" ]] && { echo "Usage: tk <name>"; return 1; }
+  tmux kill-session -t "$name"
 }
 
-################################################################################
-
-# Fuzzy finders
-# Open a file chosen via fzf in a tmux popup. Quotes keep spaces safe.
+########################################
+# Fuzzy helpers
+########################################
+# Open file in nvim via fzf + tmux popup
 alias ff='nvim "$(fd --type f --hidden --exclude .git | fzf-tmux -p)"'
 
-# Fuzzy cd into a directory (quotes for safety)
+# Fuzzy cd into a directory
 alias dff='cd "$(fd --type directory --hidden --exclude .git | fzf-tmux -p)"'
