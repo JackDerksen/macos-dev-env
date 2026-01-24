@@ -7,7 +7,7 @@ This repository contains my updated development environment configuration for ma
 
 ## 🛠️ Tools & Technologies
 
-<img width="5120" height="2820" alt="CleanShot 2026-01-11 at 20 06 49@2x" src="https://github.com/user-attachments/assets/3602331f-851e-43ed-9afa-a649fdbc123e" />
+<img width="5120" height="2824" alt="CleanShot 2026-01-23 at 21 03 37@2x" src="https://github.com/user-attachments/assets/3f4c6268-6b06-47af-9afb-0463516b9904" />
 
 ### Terminal & Shell
 - **[Ghostty](https://ghostty.org/)** - Modern, fast GPU-accelerated terminal emulator. Probably the best one out there right now. Currently have it defined with a vim keymap that I'm testing out.
@@ -44,6 +44,8 @@ This repository contains my updated development environment configuration for ma
 │   └── lazy-lock.json
 ├── lx/                    # lx-cli configuration
 │   └── config             # lx-cli config file
+├── fastfetch/             # FastFetch configuration
+│   └── config.jsonc       # FastFetch config file
 ├── tmux/                  # Tmux configuration
 │   └── tmux.conf          # Main tmux config
 ├── zed/                   # Neovim config
